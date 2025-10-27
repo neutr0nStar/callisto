@@ -1,6 +1,6 @@
 # Callisto Project Execution Plan
 
-Purpose: Implement a PWA for unified personal and group expense tracking using Next.js + Supabase, guided by docs in `docs/` (idea, requirements, system design, UI). Work is divided into phases with atomic, reviewable tasks (small PRs: ~100–300 LOC, single responsibility).
+Purpose: Implement an MVP PWA for unified personal and group expense tracking using Next.js + Supabase. Work is divided into phases with atomic, reviewable tasks (small PRs: ~100–300 LOC, single responsibility).
 
 Conventions
 
@@ -11,111 +11,57 @@ Conventions
 
 Phase 0 — Repo Bootstrap
 
-- [ ] Initialize Next.js (App Router, TypeScript) with Tailwind and ESLint/Prettier
-- [ ] Add shadcn/ui with base theme and primitives (Button, Input, Dialog, Sheet, Tabs, Toast)
-- [ ] Add mobile-first layout shell: bottom tab bar placeholders (Dashboard, Personal, Groups, Profile)
-- [ ] Add basic CI: typecheck + lint on PR
-- [ ] PWA scaffold: `manifest.json`, icon placeholders, service worker scaffold (no caching rules yet)
+1. [X] Initialize Next.js (App Router, TypeScript) with Tailwind, ESLint, and Prettier.
+2. [X] Install shadcn/ui with base primitives (Button, Input, Dialog, Sheet, Tabs, Toast).
+3. [X] Build a mobile-first layout shell with a bottom tab bar (Dashboard, Personal, Groups, Profile).
+4. [-] Configure basic CI to run typecheck and lint on pull requests.
 
-Phase 1 — Supabase Setup + Core Schemas
+Phase 1 — Supabase Setup & Core Schemas
 
-- [ ] Create Supabase project configuration docs and `.env.example`
-- [ ] Migration: `user_profile` table; trigger to upsert profile on auth signup; RLS for `auth.uid()`
-- [ ] Migration: `personal_expense` table + RLS (owner-only)
-- [ ] Migration: `group`, `group_member` tables + RLS (owner/admin membership)
-- [ ] Migration: `group_expense`, `expense_share` tables + RLS (group members)
-- [ ] Migration: `settlement` table + RLS (group members)
-- [ ] Migration: `personal_budget`, `custom_category` tables + RLS (owner-only)
-- [ ] Add SQL views: per-group member net balances; per-user personal summaries (by category, by period)
-- [ ] Add RPC functions: create group expense with validated splits; record settlement; compute balances
+1. [ ] Document Supabase project configuration and create `.env.example`.
+2. [ ] Add `user_profile` table with trigger to upsert on auth signup and RLS for `auth.uid()`.
+3. [ ] Add `personal_expense` table with owner-only RLS.
+4. [ ] Add `group` and `group_member` tables with membership RLS.
+5. [ ] Add `group_expense` and `expense_share` tables with member RLS and basic RPC for validated splits.
 
-Phase 2 — Auth & Profile (FR-3)
+Phase 2 — Auth & Profile
 
-- [ ] Wire Supabase Auth (Google) with Next.js: sign-in page and callback route
-- [ ] Add session provider, protect app routes, redirect unauthenticated to Sign In
-- [ ] Create Profile page: show first/last name, email; edit names; delete account; sign out
-- [ ] Implement profile API integration (RLS-protected CRUD)
-- [ ] Access control smoke tests (cannot read other users’ profiles)
+1. [ ] Wire Supabase Auth (Google) with Next.js including sign-in page and callback route.
+2. [ ] Add session provider, protect app routes, and redirect unauthenticated users to Sign In.
+3. [ ] Create Profile page to display name and email, allow editing names, and provide sign-out.
+4. [ ] Connect profile CRUD operations to Supabase with RLS-safe API handlers.
 
-Phase 3 — Personal Expenses (FR-1)
+Phase 3 — Personal Expenses
 
-- [ ] Personal list page: newest first; empty state with CTA
-- [ ] Filters UI: date range, category; basic query params + server calls
-- [ ] Add/Edit Expense sheet: amount (numeric), date, category, note, type toggle (Expense/Income)
-- [ ] Implement create expense API call; optimistic toast and error handling
-- [ ] Implement edit/delete API calls; confirm dialog for delete
-- [ ] Validation: decimal math to 2dp; date required; category optional initially
-- [ ] Loading/empty/error states; basic unit tests for helpers (rounding, parsing)
+1. [ ] Build personal expense list sorted newest first with empty state CTA.
+2. [ ] Implement basic filters for date range and category via query params and server calls.
+3. [ ] Create Add/Edit Expense sheet with amount, date, category, note, and type toggle.
+4. [ ] Implement create expense API call with optimistic toast and error handling.
+5. [ ] Implement edit and delete API calls with confirmation dialog for delete.
+6. [ ] Add validation for decimal math to 2dp and required date, and cover helpers with unit tests.
 
-Phase 4 — Groups Core (FR-2.1, 2.2, 2.9, 2.10)
+Phase 4 — Groups Core
 
-- [ ] Groups list page: name + your net balance badge (from view)
-- [ ] Create Group flow: name field; you become admin; navigate to detail
-- [ ] Members tab: list with role/status; admin actions gated by role
-- [ ] Invite members by email: create pending member record; clarify acceptance flow (MVP: admin add directly)
-- [ ] Leave group: only if balances settled; enforce via SQL/RPC guard
-- [ ] Remove member and transfer admin; enforce via RLS/RPC
+1. [ ] Build groups list page showing group name and your net balance badge.
+2. [ ] Implement Create Group flow where creator becomes admin and is redirected to detail view.
+3. [ ] Create Members tab listing members with role/status and gating admin actions.
+4. [ ] Allow admins to add members by email directly for MVP and handle leave group checks.
 
-Phase 5 — Group Expenses + Splits (FR-2.3 to FR-2.6)
+Phase 5 — Group Expenses & Balances
 
-- [ ] Group detail Activity tab: mixed list of expenses + settlements; newest first
-- [ ] Add Group Expense sheet: amount/date/category/description/paid by
-- [ ] Split editor component: Equal | Percentage | Shares; member selector
-- [ ] Split validation: sum reconciliation, deterministic rounding to cents
-- [ ] RPC: atomic upsert of expense + shares with server-side validation
-- [ ] Edit/Delete group expense with permissions (creator or admin)
-- [ ] Update balances in header and list after save/delete
+1. [ ] Build group detail Activity tab mixing expenses and settlements, newest first.
+2. [ ] Implement Add Group Expense sheet with amount, date, category, description, and payer.
+3. [ ] Build split editor supporting Equal, Percentage, and Shares options with member selector.
+4. [ ] Ensure split validation reconciles to cents and call RPC for atomic expense + shares upsert.
+5. [ ] Enable edit/delete for group expenses with permission checks and refresh balances post-action.
+6. [ ] Add Record Settlement sheet (payer, payee, amount, date, note) and surface settlements in activity.
 
-Phase 6 — Settlements (FR-2.7, 2.8)
+Phase 6 — QA & Launch Prep
 
-- [ ] Record Settlement sheet: payer, payee, amount, date, note
-- [ ] RPC: record settlement; insert activity entry; update balances
-- [ ] Render settlements distinctly in Activity list
-- [ ] Net balance computation check against view/RPC outputs
-
-Phase 7 — Dashboard & Budgets (FR-4)
-
-- [ ] Dashboard layout: greeting + period selector (This month/This week)
-- [ ] Budget card: show remaining, total spending; CTA to set budget
-- [ ] Add/Edit Budget sheet: period, start date, amount
-- [ ] Category breakdown chart; time-series chart (weekly/monthly)
-- [ ] Filters: date range, include income toggle
-- [ ] Per-group balances summary with deep-links to group detail
-
-Phase 8 — Categories & Customization
-
-- [ ] Personal categories: list + create/edit (name, icon)
-- [ ] Use custom categories in personal and group forms
-- [ ] Backfill mapping when custom categories are edited/removed (MVP: soft-delete or disallow delete if referenced)
-
-Phase 9 — PWA, Accessibility, Mobile UX
-
-- [ ] Installable PWA: icons, manifest metadata, basic service worker registration
-- [ ] Responsive tweaks: mobile-first sheets, bottom tab, touch targets ≥ 44px
-- [ ] Focus states, ARIA for forms and dialogs, color contrast check (WCAG 2.1 AA basics)
-- [ ] Performance pass: split critical routes, avoid blocking main thread; lazy-load charts
-
-Phase 10 — Security, Policies, and Auditing
-
-- [ ] RLS policy review for all tables; ensure least-privilege access
-- [ ] Prevent email enumeration (auth flows and invites)
-- [ ] Audit logs: edits/deletes/settlements captured (MVP: table-level triggers to history tables)
-- [ ] TLS-only and cookie settings documentation; secure storage of keys
-
-Phase 11 — Observability, Testing, and QA
-
-- [ ] Error reporting and tracing (client-side; vendor or console fallback)
-- [ ] Unit tests for calculations (splits, rounding, net balance)
-- [ ] Integration tests for RPCs (if feasible locally)
-- [ ] Manual test scripts for key flows from `docs/ui.md`
-- [ ] Seed scripts for local dev data
-
-Phase 12 — Documentation and Release
-
-- [ ] Update README with setup, environment variables, scripts
-- [ ] Contribute guide: PR size, review process, testing checklist
-- [ ] Changelog for MVP
-- [ ] Deployment docs (e.g., Vercel + Supabase)
+1. [ ] Seed sample data for local development and smoke testing.
+2. [ ] Draft manual test checklist for key flows across personal and group expenses.
+3. [ ] Update README with setup instructions, environment variables, and project scripts.
+4. [ ] Provide lightweight deployment notes (e.g., Vercel + Supabase) for MVP release.
 
 Backlog / Nice-to-Have
 
@@ -124,6 +70,10 @@ Backlog / Nice-to-Have
 - Search by note/merchant
 - Notifications for group activity
 - Offline-first caching strategy for PWA
+- Budgets dashboard with charts and filters
+- Custom categories with backfill handling
+- Accessibility and performance polish pass
+- Enhanced auditing and observability tooling
 
 Review Gates (end of each phase)
 
@@ -131,4 +81,3 @@ Review Gates (end of each phase)
 - RLS + permissions check for new tables/RPCs
 - Accessibility check on new forms/screens
 - Performance sanity (route bundles, API timing)
-
