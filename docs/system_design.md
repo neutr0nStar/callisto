@@ -16,6 +16,7 @@
 - first_name
 - last_name
 - email
+- avatar_url
 - created_at
 - updated_at
 

@@ -11,18 +11,18 @@ Conventions
 
 Phase 0 — Repo Bootstrap
 
-1. [X] Initialize Next.js (App Router, TypeScript) with Tailwind, ESLint, and Prettier.
-2. [X] Install shadcn/ui with base primitives (Button, Input, Dialog, Sheet, Tabs, Toast).
-3. [X] Build a mobile-first layout shell with a bottom tab bar (Dashboard, Personal, Groups, Profile).
+1. [x] Initialize Next.js (App Router, TypeScript) with Tailwind, ESLint, and Prettier.
+2. [x] Install shadcn/ui with base primitives (Button, Input, Dialog, Sheet, Tabs, Toast).
+3. [x] Build a mobile-first layout shell with a bottom tab bar (Dashboard, Personal, Groups, Profile).
 4. [-] Configure basic CI to run typecheck and lint on pull requests.
 
 Phase 1 — Supabase Setup & Core Schemas
 
-1. [ ] Document Supabase project configuration and create `.env.example`.
-2. [ ] Add `user_profile` table with trigger to upsert on auth signup and RLS for `auth.uid()`.
-3. [ ] Add `personal_expense` table with owner-only RLS.
-4. [ ] Add `group` and `group_member` tables with membership RLS.
-5. [ ] Add `group_expense` and `expense_share` tables with member RLS and basic RPC for validated splits.
+1. [x] Document Supabase project configuration and create `.env.example`.
+2. [x] Add `user_profile` table with trigger to upsert on auth signup and RLS for `auth.uid()`.
+3. [x] Add `personal_expense` table with owner-only RLS.
+4. [x] Add `group` and `group_member` tables with membership RLS.
+5. [x] Add `group_expense` and `expense_share` tables with member RLS for validated splits.
 
 Phase 2 — Auth & Profile
 
