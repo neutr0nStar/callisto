@@ -26,7 +26,7 @@ Phase 1 — Supabase Setup & Core Schemas
 
 Phase 2 — Auth & Profile
 
-1. [ ] Wire Supabase Auth (Google) with Next.js including sign-in page and callback route.
+1. [x] Wire Supabase Auth (Google) with Next.js including sign-in page and callback route, and handle sign out.
 2. [ ] Add session provider, protect app routes, and redirect unauthenticated users to Sign In.
 3. [ ] Create Profile page to display name and email, allow editing names, and provide sign-out.
 4. [ ] Connect profile CRUD operations to Supabase with RLS-safe API handlers.

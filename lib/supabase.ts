@@ -14,4 +14,3 @@ export const supabase: SupabaseClient =
 if (process.env.NODE_ENV !== "production") {
   globalThis.__supabase__ = supabase;
 }
-
