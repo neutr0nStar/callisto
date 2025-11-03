@@ -33,7 +33,7 @@ Phase 2 — Auth & Profile
 
 Phase 3 — Personal Expenses
 
-1. [ ] Build personal expense list sorted newest first with empty state CTA.
+1. [x] Build personal expense list sorted newest first with empty state CTA.
 2. [ ] Implement basic filters for date range and category via query params and server calls.
 3. [ ] Create Add/Edit Expense sheet with amount, date, category, note, and type toggle.
 4. [ ] Implement create expense API call with optimistic toast and error handling.

@@ -2,8 +2,14 @@ import { Plus } from "lucide-react";
 
 import { AppShell } from "@/components/layout/app-shell";
 import { Button } from "@/components/ui/button";
+import PersonalExpenseList from "@/components/personal/personal-expense-list";
+import PersonalSummary from "@/components/personal/personal-summary";
+import { listPersonalExpensesMock } from "@/lib/mocks/personal-expenses";
 
-export default function PersonalPage() {
+export default async function PersonalPage() {
+  // Using mock data for UI development only
+  const items = await listPersonalExpensesMock("demo-user");
+
   return (
     <AppShell
       title="Personal"
@@ -19,9 +25,8 @@ export default function PersonalPage() {
         </Button>
       }
     >
-      <section className="rounded-2xl border border-dashed border-border bg-muted/20 p-6 text-sm text-muted-foreground">
-        Personal expense list will live here.
-      </section>
+      <PersonalSummary items={items} />
+      <PersonalExpenseList items={items} />
     </AppShell>
   );
 }

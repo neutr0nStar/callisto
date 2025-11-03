@@ -29,12 +29,12 @@ const tabs: AppTab[] = [
 
 export function AppShell({ title, description, fab, children }: AppShellProps) {
   return (
-    <div className="relative flex min-h-svh flex-col bg-background text-foreground">
-      <header className="border-b border-border px-4 pb-4 pt-8 md:px-6">
+    <div className="relative flex h-svh flex-col bg-background text-foreground">
+      <header className="sticky top-0 z-30 border-b border-border bg-background/95 px-4 pb-3 pt-5 backdrop-blur supports-[backdrop-filter]:bg-background/80 md:px-6">
         <p className="text-xs font-semibold uppercase tracking-[0.28em] text-muted-foreground">
           Callisto
         </p>
-        <div className="mt-3 space-y-1">
+        <div className="mt-2 space-y-0.5">
           <h1 className="text-2xl font-semibold tracking-tight">{title}</h1>
           {description ? (
             <p className="text-sm text-muted-foreground">{description}</p>
@@ -93,4 +93,3 @@ function TabBar() {
     </nav>
   );
 }
-
