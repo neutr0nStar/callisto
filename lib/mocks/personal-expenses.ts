@@ -65,16 +65,37 @@ const MOCK_EXPENSES: PersonalExpense[] = [
   },
 ];
 
+export type PersonalExpenseFilters = {
+  from?: string; // inclusive, ISO YYYY-MM-DD
+  to?: string; // inclusive, ISO YYYY-MM-DD
+  category?: string; // exact match, case-insensitive (deprecated; use categories)
+  categories?: string[]; // multi-select, case-insensitive
+};
+
 export async function listPersonalExpensesMock(
-  userId: string
+  userId: string,
+  filters?: PersonalExpenseFilters
 ): Promise<PersonalExpense[]> {
   // Simulate RLS by filtering by userId and returning newest-first by date,
   // then createdAt as a tie-breaker.
-  const data = MOCK_EXPENSES.filter((e) => e.userId === userId).sort((a, b) => {
-    if (a.date === b.date) {
-      return b.createdAt.localeCompare(a.createdAt);
-    }
-    return b.date.localeCompare(a.date);
-  });
+  const data = MOCK_EXPENSES.filter((e) => e.userId === userId)
+    .filter((e) => {
+      if (!filters) return true;
+      const { from, to, category, categories } = filters;
+      if (from && e.date < from) return false;
+      if (to && e.date > to) return false;
+      const cats = categories && categories.length > 0 ? categories : category ? [category] : [];
+      if (cats.length > 0) {
+        const match = cats.some((c) => c && e.category.toLowerCase() === c.toLowerCase());
+        if (!match) return false;
+      }
+      return true;
+    })
+    .sort((a, b) => {
+      if (a.date === b.date) {
+        return b.createdAt.localeCompare(a.createdAt);
+      }
+      return b.date.localeCompare(a.date);
+    });
   return data;
 }

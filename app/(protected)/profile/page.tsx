@@ -9,12 +9,12 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Input } from "@/components/ui/input";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetFooter,
-} from "@/components/ui/sheet";
+  Drawer,
+  DrawerContent,
+  DrawerHeader,
+  DrawerTitle,
+  DrawerFooter,
+} from "@/components/ui/drawer";
 import { supabase } from "@/lib/supabase";
 
 type UserProfile = {
@@ -164,11 +164,11 @@ export default function ProfilePage() {
         </Button>
       </section>
 
-      <Sheet open={editOpen} onOpenChange={setEditOpen}>
-        <SheetContent side="bottom">
-          <SheetHeader>
-            <SheetTitle>Edit profile</SheetTitle>
-          </SheetHeader>
+      <Drawer open={editOpen} onOpenChange={setEditOpen}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Edit profile</DrawerTitle>
+          </DrawerHeader>
           <div className="space-y-4 px-4">
             {saveError ? (
               <p className="text-sm text-destructive" role="alert">{saveError}</p>
@@ -192,7 +192,7 @@ export default function ProfilePage() {
               />
             </div>
           </div>
-          <SheetFooter>
+          <DrawerFooter>
             <Button
               className="w-full rounded-full"
               type="button"
@@ -227,9 +227,9 @@ export default function ProfilePage() {
             >
               {saving ? "Saving…" : "Save"}
             </Button>
-          </SheetFooter>
-        </SheetContent>
-      </Sheet>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>
     </AppShell>
   );
 }
