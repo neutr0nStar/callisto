@@ -1,11 +1,11 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-import type { PersonalExpense } from "@/lib/mocks/personal-expenses";
+import type { PersonalExpense } from "@/lib/personal-expenses";
 import { cn } from "@/lib/utils";
 import type { LucideIcon } from "lucide-react";
 import { Calculator, TrendingDown, TrendingUp } from "lucide-react";
 
-function formatCurrency(amount: number, currency = "USD") {
+function formatCurrency(amount: number, currency = "AUD") {
   try {
     return new Intl.NumberFormat(undefined, {
       style: "currency",

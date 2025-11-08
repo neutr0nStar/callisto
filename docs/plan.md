@@ -34,11 +34,11 @@ Phase 2 — Auth & Profile
 Phase 3 — Personal Expenses
 
 1. [x] Build personal expense list sorted newest first with empty state CTA.
-2. [ ] Implement basic filters for date range and category via query params and server calls.
-3. [ ] Create Add/Edit Expense sheet with amount, date, category, note, and type toggle.
-4. [ ] Implement create expense API call with optimistic toast and error handling.
-5. [ ] Implement edit and delete API calls with confirmation dialog for delete.
-6. [ ] Add validation for decimal math to 2dp and required date, and cover helpers with unit tests.
+2. [x] Implement basic filters for date range and category via query params and server calls.
+3. [x] Create Add/Edit Expense sheet with amount, date, category, note, and type toggle.
+4. [x] Implement create expense API call with optimistic toast and error handling.
+5. [x] Implement edit and delete API calls with confirmation dialog for delete.
+6. [x] Add validation for decimal math to 2dp and required date, and cover helpers with unit tests.
 
 Phase 4 — Groups Core
 

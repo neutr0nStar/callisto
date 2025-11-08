@@ -18,6 +18,8 @@ import {
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { Filter } from "lucide-react";
+import { getCategoryIconComponent } from "@/lib/categories";
+import { cn } from "@/lib/utils";
 
 type PersonalFiltersDrawerProps = {
   from?: string;
@@ -161,20 +163,24 @@ export default function PersonalFiltersDrawer({
               Categories
             </p>
             <div className="grid grid-cols-2 gap-2">
-              {availableCategories.map((c) => (
-                <label
-                  key={c}
-                  className="flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm"
-                >
-                  <input
-                    type="checkbox"
-                    className="size-4"
-                    checked={cats.has(c)}
-                    onChange={() => toggleCat(c)}
-                  />
-                  <span className="truncate">{c}</span>
-                </label>
-              ))}
+              {availableCategories.map((c) => {
+                const Icon = getCategoryIconComponent(c, "expense");
+                return (
+                  <label
+                    key={c}
+                    className="flex items-center gap-2 rounded-md border border-input bg-background px-3 py-2 text-sm"
+                  >
+                    <input
+                      type="checkbox"
+                      className="size-4"
+                      checked={cats.has(c)}
+                      onChange={() => toggleCat(c)}
+                    />
+                    <Icon className={cn("h-4 w-4 text-muted-foreground")}/>
+                    <span className="truncate">{c}</span>
+                  </label>
+                );
+              })}
             </div>
           </div>
         </div>
